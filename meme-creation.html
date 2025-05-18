@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meme Creation Studio - MemeHub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+    }
+
+    header {
+      background: #1f4037;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logout-btn {
+            background-color: transparent;
+            background-color: #37d88d;
+            border: none;
+            color: black;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.05);
+            text-decoration: underline;
+            background-color: rgba(23, 65, 15, 0.05);
+            /* subtle background on hover */
+            color: white;
+        }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .email-info {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #b9ebdd, #37d88d);;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px;
+      /* margin-top: 20px; */
+      border-radius: 10px;
+    }
+
+    .navbar a {
+      color: #1f4037;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    
+.navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    #content {
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="file"], select, input[type="text"], input[type="number"], input[type="color"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    #canvasContainer {
+      border: 1px solid #ccc;
+      width: 500px;
+      height: 500px;
+      position: relative;
+      margin-top: 20px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+    #previewTextTop, #previewTextBottom {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px #000;
+      pointer-events: none;
+      user-select: none;
+    }
+    #previewTextTop {
+      /* top: 10px; */
+      display: none;
+    }
+    #previewTextBottom {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+  color: white;
+  text-shadow: 2px 2px 4px #000;
+  pointer-events: none;
+  user-select: none;
+}
+
+    /* Footer */
+footer {
+    text-align: center;
+    padding: 20px 10px;
+    background: #1f4037;
+    color: black;
+    font-size: 0.9rem;
+    margin-top: 80px;
+    border-top: 1px solid #222;
+}
+/* 
+body.light footer {
+    background-color: #fff;
+    color: #777;
+    border-top: 1px solid #ddd;
+}
+
+footer a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 6px;
+    font-weight: 600;
+}
+
+body.light footer a {
+    color: #999;
+}
+
+footer a:hover {
+    text-decoration: underline;
+} */
+ /* Footer */
+footer {
+  text-align: center;
+  padding: 20px 10px;
+  background: #1f4037;
+  color: #fff;
+  font-size: 0.9rem;
+  margin-top: 80px;
+  border-top: 1px solid #0e221c;
+}
+
+footer a {
+  color: #cceadf;
+  text-decoration: none;
+  margin: 0 8px;
+  font-weight: 500;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+  }
+
+  main {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  #content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  #leftPanel {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+  }
+
+  #rightPanel {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: 26px;
+    color: #222;
+    margin-bottom: 20px;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select,
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  input[type="color"] {
+    width: 100%;
+    height: 44px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    margin-right: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .buttons button:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+  }
+
+  #canvasContainer {
+    width: 100%;
+    max-width: 500px;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid #ccc;
+  }
+
+  canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    #content {
+      flex-direction: column;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div id="userWelcome">Welcome!   Home</div>
+    
+    <nav class="navbar">
+    <a href="dashboard.html">🏠 Home</a>
+    <a href="explore.html">🔍 Explore</a>
+    <a href="meme-creation.html">🎨 Create Meme</a>
+    <a href="gallery.html">🖼️ My Memes</a>
+    <a href="profile.html">👤 Profile</a>
+  
+  </nav>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+  </header>
+
+
+  <!-- <main>
+
+  <div id="content" style="display: flex; gap: 20px;">
+
+    <div id="leftPanel" style="flex: 1; max-width: 350px;">
+      <h2>Meme Creation Studio</h2>
+
+      <div class="section">
+        <label for="imageUpload">Upload Image:</label>
+        <input type="file" id="imageUpload" accept="image/*" />
+      </div>
+
+      <div class="section">
+        <label for="templateSelect">Or pick a template:</label>
+        <select id="templateSelect">
+          <option value="">-- Select Template --</option>
+          <option value="https://i.imgflip.com/1ur9b0.jpg">Distracted Boyfriend</option>
+          <option value="https://i.imgflip.com/30b1gx.jpg">Drake Hotline Bling</option>
+          <option value="https://i.imgflip.com/1g8my4.jpg">Two Buttons</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <label for="topText">Top Text:</label>
+        <input type="text" id="topText" placeholder="Enter top text" />
+        <label for="bottomText">Bottom Text:</label>
+        <input type="text" id="bottomText" placeholder="Enter bottom text" />
+      </div>
+
+      <div class="section">
+        <label for="fontStyle">Font Style:</label>
+        <select id="fontStyle">
+          <option value="Impact">Impact</option>
+          <option value="Arial">Arial</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Courier New">Courier New</option>
+        </select>
+        <label for="fontSize">Font Size:</label>
+        <input type="number" id="fontSize" value="40" min="10" max="100" />
+        <label for="fontColor">Font Color:</label>
+        <input type="color" id="fontColor" value="#FFFFFF" />
+        <label for="fontAlign">Font Alignment:</label>
+        <select id="fontAlign">
+          <option value="center">Center</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <button id="aiCaptionImage">AI Caption Generator (Image)</button>
+        <button id="aiCaptionText">AI Caption Generator (Text)</button>
+      </div>
+
+      <div class="section">
+        <button id="saveDraft">Save as Draft</button>
+        <button id="publishMeme">Publish to Feed</button>
+      </div>
+    </div>
+
+    <div id="rightPanel" style="flex: 1; max-width: 550px;">
+      <div id="canvasContainer" style="height: auto; width: auto;">
+        <canvas id="memeCanvas" width="500" height="500"></canvas>
+        <div id="previewTextTop"></div>
+        <div id="previewTextBottom"></div>
+      </div>
+      
+    </div>
+  </main> -->
+
+  <main>
+    <div id="content">
+      <div id="leftPanel">
+        <h2>Meme Creation Studio</h2>
+  
+        <div class="section">
+          <label for="imageUpload">Upload Image:</label>
+          <input type="file" id="imageUpload" accept="image/*" />
+        </div>
+  
+        <div class="section">
+          <label for="templateSelect">Or pick a template:</label>
+          <select id="templateSelect">
+            <option value="">-- Select Template --</option>
+            <option value="https://i.imgflip.com/1ur9b0.jpg">Distracted Boyfriend</option>
+            <option value="https://i.imgflip.com/30b1gx.jpg">Drake Hotline Bling</option>
+            <option value="https://i.imgflip.com/1g8my4.jpg">Two Buttons</option>
+          </select>
+        </div>
+  
+        <div class="section">
+          <label for="topText">Top Text:</label>
+          <input type="text" id="topText" placeholder="Enter top text" />
+          <label for="bottomText">Bottom Text:</label>
+          <input type="text" id="bottomText" placeholder="Enter bottom text" />
+        </div>
+  
+        <div class="section">
+          <label for="fontStyle">Font Style:</label>
+          <select id="fontStyle">
+            <option value="Impact">Impact</option>
+            <option value="Arial">Arial</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Courier New">Courier New</option>
+          </select>
+  
+          <label for="fontSize">Font Size:</label>
+          <input type="number" id="fontSize" value="40" min="10" max="100" />
+  
+          <label for="fontColor">Font Color:</label>
+          <input type="color" id="fontColor" value="#FFFFFF" />
+  
+          <label for="fontAlign">Font Alignment:</label>
+          <select id="fontAlign">
+            <option value="center">Center</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+  
+        <div class="section buttons">
+          <button id="aiCaptionImage">AI Caption (Image)</button>
+          <button id="aiCaptionText">AI Caption (Text)</button>
+        </div>
+  
+        <div class="section buttons">
+          <button id="saveDraft">Save as Draft</button>
+          <button id="publishMeme">Publish to Feed</button>
+        </div>
+      </div>
+  
+      <div id="rightPanel">
+        <div id="canvasContainer">
+          <canvas id="memeCanvas" width="500" height="500"></canvas>
+          <div id="previewTextTop"></div>
+          <div id="previewTextBottom"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <footer>
+      <p>&copy; 2025 MemeHub. All rights reserved.</p>
+      <p>
+          <a href="#">About</a> |
+          <a href="#">Terms</a> |
+          <a href="#">Privacy</a> |
+          <a href="#">Contact</a>
+      </p>
+  </footer>
+
+
+
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBv1mD2brzhfDxgZyjUis6j0XmhsQcPwMI",
+      authDomain: "hackathons-project-83560.firebaseapp.com",
+      databaseURL: "https://hackathons-project-83560-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "hackathons-project-83560",
+      storageBucket: "hackathons-project-83560.appspot.com",
+      messagingSenderId: "693799285364",
+      appId: "1:693799285364:web:3c5b3ea19bf53bd4ce9721"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Removed emailInfo as it does not exist in this page
+    const userWelcome = document.getElementById('userWelcome');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Removed emailInfo.textContent update
+        userWelcome.textContent = `👋 Welcome, ${user.email}`;
+      } else {
+        // Redirect to login if not authenticated
+        window.location.href = 'index.html';
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = 'index.html';
+      }).catch((error) => {
+        alert('Logout failed: ' + error.message);
+      });
+    });
+  
+
+    const canvas = document.getElementById('memeCanvas');
+    const ctx = canvas.getContext('2d');
+    const previewTextTop = document.getElementById('previewTextTop');
+    const previewTextBottom = document.getElementById('previewTextBottom');
+
+    const imageUpload = document.getElementById('imageUpload');
+    const templateSelect = document.getElementById('templateSelect');
+    const topTextInput = document.getElementById('topText');
+    const bottomTextInput = document.getElementById('bottomText');
+    const fontStyleSelect = document.getElementById('fontStyle');
+    const fontSizeInput = document.getElementById('fontSize');
+    const fontColorInput = document.getElementById('fontColor');
+    const fontAlignSelect = document.getElementById('fontAlign');
+
+    let currentImage = new Image();
+
+    function drawMeme() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (currentImage.src) {
+        ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+      }
+      ctx.fillStyle = fontColorInput.value;
+      ctx.textAlign = fontAlignSelect.value;
+      ctx.font = `${fontSizeInput.value}px ${fontStyleSelect.value}`;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'black';
+
+      // Draw top text
+      ctx.textBaseline = 'top';
+      const topX = fontAlignSelect.value === 'left' ? 10 : fontAlignSelect.value === 'right' ? canvas.width - 10 : canvas.width / 2;
+      ctx.strokeText(topTextInput.value.toUpperCase(), topX, 10);
+      ctx.fillText(topTextInput.value.toUpperCase(), topX, 10);
+
+      // Draw bottom text
+      ctx.textBaseline = 'bottom';
+      const bottomX = fontAlignSelect.value === 'left' ? 10 : fontAlignSelect.value === 'right' ? canvas.width - 10 : canvas.width / 2;
+      ctx.strokeText(bottomTextInput.value.toUpperCase(), bottomX, canvas.height - 10);
+      ctx.fillText(bottomTextInput.value.toUpperCase(), bottomX, canvas.height - 10);
+    }
+
+    imageUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        currentImage.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    templateSelect.addEventListener('change', (e) => {
+      if (e.target.value) {
+        currentImage.src = e.target.value;
+      }
+    });
+
+    currentImage.onload = () => {
+      drawMeme();
+    };
+
+    [topTextInput, bottomTextInput, fontStyleSelect, fontSizeInput, fontColorInput, fontAlignSelect].forEach(el => {
+      el.addEventListener('input', drawMeme);
+    });
+
+    // AI Caption Generator placeholders
+    document.getElementById('aiCaptionImage').addEventListener('click', () => {
+      alert('AI Caption Generator (Image) feature coming soon!');
+    });
+
+    document.getElementById('aiCaptionText').addEventListener('click', () => {
+      alert('AI Caption Generator (Text) feature coming soon!');
+    });
+
+    // Save draft placeholder
+    document.getElementById('saveDraft').addEventListener('click', () => {
+      alert('Save as Draft feature coming soon!');
+    });
+
+    // Publish to Firebase and redirect to gallery
+    document.getElementById('publishMeme').addEventListener('click', () => {
+      if (!currentImage.src) {
+        alert('Please upload or select an image before publishing.');
+        return;
+      }
+      const memeData = {
+        image: currentImage.src,
+        topText: topTextInput.value,
+        bottomText: bottomTextInput.value,
+        fontStyle: fontStyleSelect.value,
+        fontSize: fontSizeInput.value,
+        fontColor: fontColorInput.value,
+        fontAlign: fontAlignSelect.value,
+        tags: [] // Tags can be added later with AI suggestions
+      };
+      const memesRef = ref(database, 'memes');
+      push(memesRef, memeData)
+        .then(() => {
+          alert('Meme published successfully!');
+          window.location.href = 'gallery.html';
+        })
+        .catch((error) => {
+          alert('Error publishing meme: ' + error.message);
+        });
+    });
+
+    // Initialize with blank image
+    currentImage.src = '';
+
+
+
+     const memeCount = document.getElementById('memeCount');
+    const gallery = document.getElementById('gallery');
+    let memes = [];
+    let interactions = getInteractions();
+    let currentCommentMemeId = null;
+
+    function getInteractions() {
+      return JSON.parse(localStorage.getItem('memeInteractions') || '{}');
+    }
+
+    function saveInteractions(data) {
+      localStorage.setItem('memeInteractions', JSON.stringify(data));
+    }
+
+    async function fetchMemes() {
+      try {
+        const response = await axios.get('https://meme-api.com/gimme/20');
+        memes = response.data.memes;
+        memeCount.textContent = `Total Memes: ${memes.length}`;
+        displayMemes();
+      } catch (error) {
+        console.error('Error fetching memes:', error);
+        memeCount.textContent = 'Failed to load memes.';
+      }
+    }
+
+    function displayMemes() {
+      gallery.innerHTML = '';
+      memes.forEach((meme) => {
+        const id = meme.postLink;
+        const interaction = interactions[id] || { likes: 0, comments: [] };
+
+        const memeCard = document.createElement('div');
+        memeCard.className = 'meme-card';
+
+        memeCard.innerHTML = `
+          <h3>${meme.title}</h3>
+          <img src="${meme.url}" alt="Meme Image">
+          <div class="meme-actions">
+            <button onclick="likeMeme('${id}')">❤️ ${interaction.likes}</button>
+            <button onclick="openCommentModal('${id}')">💬 ${interaction.comments.length}</button>
+            <button onclick="shareMeme('${meme.url}')">🔗 Share</button>
+          </div>
+        `;
+        gallery.appendChild(memeCard);
+      });
+    }
+
+    function likeMeme(id) {
+      if (!interactions[id]) interactions[id] = { likes: 0, comments: [] };
+      interactions[id].likes += 1;
+      saveInteractions(interactions);
+      displayMemes();
+    }
+
+    function openCommentModal(id) {
+      currentCommentMemeId = id;
+      document.getElementById('commentModal').style.display = 'block';
+    }
+
+    function closeCommentModal() {
+      document.getElementById('commentModal').style.display = 'none';
+      document.getElementById('commentInput').value = '';
+      currentCommentMemeId = null;
+    }
+
+    function saveComment() {
+      const commentText = document.getElementById('commentInput').value.trim();
+      if (commentText && currentCommentMemeId) {
+        if (!interactions[currentCommentMemeId]) {
+          interactions[currentCommentMemeId] = { likes: 0, comments: [] };
+        }
+        interactions[currentCommentMemeId].comments.push(commentText);
+        saveInteractions(interactions);
+        closeCommentModal();
+        displayMemes();
+      }
+    }
+
+    function shareMeme(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        alert("Meme link copied to clipboard!");
+      });
+    }
+
+    fetchMemes();
+  </script>
+   
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meme Gallery - MemeHub</title>
+  <style>
+   body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+    }
+
+    header {
+      background: #1f4037;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logout-btn {
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .email-info {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #b9ebdd, #37d88d);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px;
+      /* margin-top: 20px; */
+      border-radius: 10px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+
+ 
+
+
+
+
+
+    #content {
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #meme-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .meme-item {
+      width: 300px;
+      margin: 10px;
+      text-align: center;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      padding: 10px;
+    }
+    .meme-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid #ccc;
+    }
+    .meme-item p {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #333;
+    }
+    button {
+      margin: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .edit-btn {
+      background-color: #3498db;
+      color: white;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div id="userWelcome">Welcome!</div>
+    <nav class="navbar">
+    <a href="dashboard.html">🏠 Home</a>
+    <a href="explore.html">🔍 Explore</a>
+    <a href="meme-creation.html">🎨 Create Meme</a>
+    <a href="gallery.html">🖼️ My Memes</a>
+    
+    
+  </nav>
+    <button class="logout-btn" id="logoutBtn">Logout</button>
+    
+  </header>
+
+  <!-- <nav class="navbar">
+    <a href="dashboard.html">🏠 Home</a>
+    <a href="explore.html">🔍 Explore</a>
+    <a href="meme-creation.html">🎨 Create Meme</a>
+    <a href="gallery.html">🖼️ My Memes</a>
+    
+    
+  </nav> -->
+
+  <div id="content">
+    <h2 style="text-align: center;">Meme Gallery</h2>
+    <div id="meme-gallery"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+    import { getDatabase, ref, get, remove, update } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBv1mD2brzhfDxgZyjUis6j0XmhsQcPwMI",
+      authDomain: "hackathons-project-83560.firebaseapp.com",
+      databaseURL: "https://hackathons-project-83560-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "hackathons-project-83560",
+      storageBucket: "hackathons-project-83560.appspot.com",
+      messagingSenderId: "693799285364",
+      appId: "1:693799285364:web:3c5b3ea19bf53bd4ce9721"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const memesRef = ref(database, 'memes');
+
+    get(memesRef)
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          const memes = snapshot.val();
+          const gallery = document.getElementById('meme-gallery');
+
+          Object.entries(memes).forEach(([memeId, meme]) => {
+            const div = document.createElement('div');
+            div.classList.add('meme-item');
+
+            const img = document.createElement('img');
+            img.src = meme.image;
+            img.alt = "Meme Image";
+            div.appendChild(img);
+
+            const top = document.createElement('p');
+            top.innerText = meme.topText || "";
+            div.appendChild(top);
+
+            const bottom = document.createElement('p');
+            bottom.innerText = meme.bottomText || "";
+            div.appendChild(bottom);
+
+            // Edit Button
+            const editBtn = document.createElement('button');
+            editBtn.innerText = 'Edit';
+            editBtn.className = 'edit-btn';
+            editBtn.onclick = () => {
+              const newTop = prompt("Edit top text:", meme.topText);
+              const newBottom = prompt("Edit bottom text:", meme.bottomText);
+              if (newTop !== null && newBottom !== null) {
+                const memeRef = ref(database, 'memes/' + memeId);
+                update(memeRef, { topText: newTop, bottomText: newBottom })
+                  .then(() => {
+                    alert("Meme updated!");
+                    location.reload();
+                  });
+              }
+            };
+            div.appendChild(editBtn);
+
+            // Like Button
+            const likeBtn = document.createElement('button');
+            likeBtn.innerText = `👍 Like (${meme.likes || 0})`;
+            likeBtn.className = 'like-btn';
+            likeBtn.onclick = () => {
+              const memeRef = ref(database, 'memes/' + memeId);
+              const newLikes = (meme.likes || 0) + 1;
+              update(memeRef, { likes: newLikes })
+                .then(() => {
+                  likeBtn.innerText = `👍 Like (${newLikes})`;
+                })
+                .catch(() => {
+                  alert('Failed to update likes.');
+                });
+            };
+            div.appendChild(likeBtn);
+
+            // Share Button
+            const shareBtn = document.createElement('button');
+            shareBtn.innerText = '🔗 Share';
+            shareBtn.className = 'share-btn';
+            shareBtn.onclick = () => {
+              const shareUrl = window.location.href + `#meme-${memeId}`;
+              navigator.clipboard.writeText(shareUrl)
+                .then(() => {
+                  alert('Meme link copied to clipboard!');
+                })
+                .catch(() => {
+                  alert('Failed to copy link.');
+                });
+            };
+            div.appendChild(shareBtn);
+
+            // Delete Button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerText = 'Delete';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.onclick = () => {
+              if (confirm("Are you sure you want to delete this meme?")) {
+                remove(ref(database, 'memes/' + memeId))
+                  .then(() => {
+                    alert("Meme deleted.");
+                    location.reload();
+                  });
+              }
+            };
+            div.appendChild(deleteBtn);
+
+            gallery.appendChild(div);
+          });
+        } else {
+          document.getElementById('meme-gallery').innerText = "No memes found.";
+        }
+      })
+      .catch(error => {
+        console.error("Error loading memes:", error);
+        document.getElementById('meme-gallery').innerText = "Failed to load memes.";
+      });
+  </script>
+</body>
+</html> 
