@@ -7,7 +7,7 @@ MemeHub is a fun and interactive meme-sharing web application where users can ex
 
 ## 🔗 Live Demo
 
-🚀 [Click here to view MemeHub Live](https://your-live-link.com) *(Replace with your deployed URL)*
+🚀 [Click here to view MemeHub Live](https://hackthon-masai-school.vercel.app/)
 
 ---
 
